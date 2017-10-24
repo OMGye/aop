@@ -7,30 +7,33 @@ import java.lang.reflect.Proxy;
 import java.util.ArrayList;
 
 public class JDKProxyUserDaoImpl implements InvocationHandler{
-    //×¢ÈëÖ´ĞĞ¶ÔÏó
+    //æ³¨å…¥æ‰§è¡Œå¯¹è±¡
 	private Object userDao;
-	//´úÀí¶ÔÏó»Øµ÷invoke·½·¨
+	//ä»£ç†å¯¹è±¡å›è°ƒinvokeæ–¹æ³•
 	public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
 		long start = System.currentTimeMillis();
 		Object retValue = method.invoke(userDao, args);
 		long end = System.currentTimeMillis();
-		System.out.println(method.getName()+"Ö´ĞĞÊ±¼äÎª"+(end-start));
+		System.out.println(method.getName()+"æ‰§è¡Œæ—¶é—´ä¸º"+(end-start));
 		return retValue;
 	}
-	//µÃµ½´úÀí¶ÔÏó
+	//å¾—åˆ°ä»£ç†å¯¹è±¡
 	public Object getProxy(Object userDao){
 		this.userDao = userDao;
-		/*ProxyÌá¹©µÄµÃµ½´úÀí¶ÔÏóµÄ·½·¨£¬
-		 * ²¢ÔÚĞéÄâ»úÀïÃæ¶¯Ì¬µÄÉú³ÉÁË×Ö½ÚÂë¶ÔÏó£¬
-		 * Õâ¸ö·½·¨µÚÒ»¸ö²ÎÊıÊÇÀà¼ÓÔØÆ÷¶ÔÏó
-		 * µÚ¶ş¸öÊÇ×Ö½ÚÂë¶ÔÏóÊı×é
-		 * µÚÈı¸öÊÇInvocationHandler¶ÔÏó
-		 * ÒòÎªproxy¶¯Ì¬Éú³ÉµÄ×Ö½ÚÂëÎÄ¼şÀïÃæÖ»ÓĞÓĞ²Î¹¹Ôì·½·¨£¬²¢ÇÒ×¢ÈëÕâ¸ö¶ÔÏóÒÔ±ãÓÃÓÚ·½·¨µÄ»Øµô
+		/*Proxyæä¾›çš„å¾—åˆ°ä»£ç†å¯¹è±¡çš„æ–¹æ³•ï¼Œ
+		 * å¹¶åœ¨è™šæ‹Ÿæœºé‡Œé¢åŠ¨æ€çš„ç”Ÿæˆäº†å­—èŠ‚ç å¯¹è±¡ï¼Œ
+		 * è¿™ä¸ªæ–¹æ³•ç¬¬ä¸€ä¸ªå‚æ•°æ˜¯ç±»åŠ è½½å™¨å¯¹è±¡
+		 * ç¬¬äºŒä¸ªæ˜¯å­—èŠ‚ç å¯¹è±¡æ•°ç»„
+		 * ç¬¬ä¸‰ä¸ªæ˜¯InvocationHandlerå¯¹è±¡
+		 * å› ä¸ºproxyåŠ¨æ€ç”Ÿæˆçš„å­—èŠ‚ç æ–‡ä»¶é‡Œé¢åªæœ‰æœ‰å‚æ„é€ æ–¹æ³•ï¼Œå¹¶ä¸”æ³¨å…¥è¿™ä¸ªå¯¹è±¡ä»¥ä¾¿ç”¨äºæ–¹æ³•çš„å›æ‰
 		 */
 	   Object obj = Proxy.newProxyInstance(userDao.getClass().getClassLoader(), userDao.getClass().getInterfaces(),this);	
 		return obj;
 		
 	}
+	/**
+	  ä¸‹é¢çš„mainæ–¹æ³•æ¥æµ‹è¯•å¤šæ€åœ¨åå°„ä¸­èƒ½å¦è°ƒç”¨å­ç±»æ–¹æ³•
+	*/
 	public static void main(String[] args) throws NoSuchMethodException, SecurityException, IllegalAccessException, IllegalArgumentException, InvocationTargetException {
 		ArrayList<String> list = new ArrayList<String>();
 		Class clazz = list.getClass();
